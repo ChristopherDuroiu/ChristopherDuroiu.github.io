@@ -1,54 +1,47 @@
-:root{
-  --bg:#f2f2f2;        /* light grey background */
-  --card:#ffffff;
-  --fg:#222;
-  --muted:#333;
-  --accent:#003262;
-  --border:#ddd;
-  --img-border:#aaa;
-  --radius:14px;
-}
-
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
   font-family: Inter, system-ui, -apple-system, Segoe UI, Arial, sans-serif;
-  color:var(--fg); background:var(--bg);
+  color:#222; 
+  background:#f4f4f5;
 }
 
-.wrapper{max-width:1000px;margin:0 auto;padding:28px 20px}
-header{margin-bottom:20px}
-h1,h2{margin:0 0 10px}
-h1{font-size:28px}
-h2{font-size:20px;color:var(--accent);font-weight:600}
+.wrapper{max-width:1000px;margin:0 auto;padding:28px 18px}
+header{margin-bottom:10px}
+h1{margin:0 0 8px;font-size:26px;color:#0f172a;font-weight:700}
+h2{margin:18px 0 10px;font-size:18px;color:#0f172a;font-weight:600}
 
-.card{
-  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
-  padding:18px; margin-bottom:28px;
-  box-shadow:0 4px 10px rgba(0,0,0,.05);
-}
-
-.grid{display:grid; gap:18px}
+.grid{display:grid;gap:16px;justify-items:center}
 .grid.cols-2{grid-template-columns:1fr 1fr}
 @media (max-width:840px){ .grid.cols-2{grid-template-columns:1fr} }
 
 img.media{
-  width:90%;           /* smaller than full container */
-  max-width:380px;     /* keeps them from being massive */
+  width:90%;
+  max-width:340px;
   height:auto;
   display:block;
   margin:0 auto;
+  border:2px solid #bbb;
+  border-radius:14px;
   background:#fff;
-  border:2px solid var(--img-border);
-  border-radius:calc(var(--radius) + 4px);
 }
 
 .caption{
   text-align:center;
-  color:var(--muted);
-  font-size:16px;      /* larger */
-  font-weight:bold;    /* bold */
+  color:#333;
+  font-size:17px;
+  font-weight:800;
   margin-top:8px;
 }
 
-.container-narrow{max-width:500px;margin:0 auto}
+.desc-pill{
+  display:inline-block;
+  margin:12px auto 28px auto;
+  padding:8px 14px;
+  background:#e5e7eb;
+  color:#111;
+  border-radius:999px;
+  font-size:14px;
+  font-weight:600;
+}
+.center{text-align:center}
