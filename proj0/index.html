@@ -4,77 +4,48 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>CS180 Project 0</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #fff;
-      color: #000;
-      text-align: center;
-      padding: 20px;
-    }
-    h1, h2 {
-      margin-bottom: 16px;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      justify-items: center;
-      max-width: 900px;
-      margin: 0 auto 40px auto;
-    }
-    img {
-      max-width: 100%;
-      height: auto;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    .caption {
-      font-size: 14px;
-      margin-top: 6px;
-      color: #444;
-    }
-    .single {
-      max-width: 600px;
-      margin: 0 auto 40px auto;
-    }
-  </style>
+  <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
-  <h1>Project 0 — Becoming Friends with Your Camera</h1>
+  <div class="wrapper">
+    <header>
+      <h1>Project 0 - Becoming Friends with Your Camera</h1>
+    </header>
 
-  <!-- Part 1 -->
-  <h2>Part 1: Selfie — Wrong vs Right</h2>
-  <div class="grid">
-    <div>
-      <img src="./images/normalface.jpg" alt="Normal face close selfie" />
-      <div class="caption">Close-up face (distorted)</div>
+    <div class="section card">
+      <h2>Part 1: Selfie — Wrong vs Right</h2>
+      <div class="grid cols-2">
+        <div>
+          <img class="media" src="./images/normalface.jpg" alt="Close selfie" />
+          <div class="caption">Close-up (wide)</div>
+        </div>
+        <div>
+          <img class="media" src="./images/zoomface.jpg" alt="Stepped back zoomed selfie" />
+          <div class="caption">Stepped back + zoom</div>
+        </div>
+      </div>
     </div>
-    <div>
-      <img src="./images/zoomface.jpg" alt="Zoomed in face" />
-      <div class="caption">Stepped back + zoomed face</div>
-    </div>
-  </div>
 
-  <!-- Part 2 -->
-  <h2>Part 2: Architectural Perspective Compression</h2>
-  <div class="grid">
-    <div>
-      <img src="./images/IMG_6863.jpg" alt="Zoomed in architecture scene" />
-      <div class="caption">Zoomed-in shot</div>
+    <div class="section card">
+      <h2>Part 2: Architectural Perspective Compression</h2>
+      <div class="grid cols-2">
+        <div>
+          <img class="media" src="./images/IMG_6863.jpg" alt="Zoomed street" />
+          <div class="caption">Zoomed-in</div>
+        </div>
+        <div>
+          <img class="media" src="./images/IMG_6870coprot.jpg" alt="Close, no zoom street" />
+          <div class="caption">Close, no zoom</div>
+        </div>
+      </div>
     </div>
-    <div>
-      <img src="./images/IMG_6870coprot.jpg" alt="Close, no zoom architecture scene" />
-      <div class="caption">Close shot, no zoom</div>
-    </div>
-  </div>
 
-  <!-- Part 3 -->
-  <h2>Part 3: Dolly Zoom</h2>
-  <div class="single">
-    <img src="./images/dollyzoom.gif" alt="Dolly zoom effect" />
-    <div class="caption">Dolly zoom effect (GIF)</div>
+    <div class="section card">
+      <h2>Part 3: Dolly Zoom</h2>
+      <div class="container-narrow">
+        <img class="media" src="./images/dollyzoom.gif" alt="Dolly zoom GIF" />
+      </div>
+    </div>
   </div>
 </body>
 </html>
