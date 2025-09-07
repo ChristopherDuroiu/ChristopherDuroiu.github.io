@@ -9,7 +9,14 @@ body{
 .wrapper{max-width:1000px;margin:0 auto;padding:28px 18px}
 header{margin-bottom:10px}
 h1{margin:0 0 8px;font-size:26px;color:#0f172a;font-weight:700}
-h2{margin:18px 0 10px;font-size:18px;color:#0f172a;font-weight:600}
+h2{
+  margin:18px 0 10px;
+  font-size:18px;
+  color:#0f172a;
+  font-weight:600;
+  border-bottom:2px solid #0f172a;  /* underline */
+  padding-bottom:4px;
+}
 
 .grid{display:grid;gap:16px;justify-items:center}
 .grid.cols-2{grid-template-columns:1fr 1fr}
@@ -37,11 +44,12 @@ img.media{
 .desc-pill{
   display:inline-block;
   margin:12px auto 28px auto;
-  padding:8px 14px;
+  padding:12px 18px;
   background:#e5e7eb;
   color:#111;
-  border-radius:999px;
-  font-size:14px;
+  border-radius:8px;
+  font-size:15px;
   font-weight:600;
+  max-width:800px;
 }
 .center{text-align:center}
