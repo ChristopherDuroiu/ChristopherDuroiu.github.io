@@ -22,7 +22,7 @@
       gap: 20px;
       justify-items: center;
       max-width: 900px;
-      margin: 0 auto;
+      margin: 0 auto 40px auto;
     }
     img {
       max-width: 100%;
@@ -35,11 +35,29 @@
       margin-top: 6px;
       color: #444;
     }
+    .single {
+      max-width: 600px;
+      margin: 0 auto 40px auto;
+    }
   </style>
 </head>
 <body>
   <h1>Project 0 — Becoming Friends with Your Camera</h1>
 
+  <!-- Part 1 -->
+  <h2>Part 1: Selfie — Wrong vs Right</h2>
+  <div class="grid">
+    <div>
+      <img src="./images/normalface.jpg" alt="Normal face close selfie" />
+      <div class="caption">Close-up face (distorted)</div>
+    </div>
+    <div>
+      <img src="./images/zoomface.jpg" alt="Zoomed in face" />
+      <div class="caption">Stepped back + zoomed face</div>
+    </div>
+  </div>
+
+  <!-- Part 2 -->
   <h2>Part 2: Architectural Perspective Compression</h2>
   <div class="grid">
     <div>
@@ -51,6 +69,12 @@
       <div class="caption">Close shot, no zoom</div>
     </div>
   </div>
+
+  <!-- Part 3 -->
+  <h2>Part 3: Dolly Zoom</h2>
+  <div class="single">
+    <img src="./images/dollyzoom.gif" alt="Dolly zoom effect" />
+    <div class="caption">Dolly zoom effect (GIF)</div>
+  </div>
 </body>
 </html>
-
