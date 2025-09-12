@@ -6,31 +6,52 @@
   <title>CS180 Project 1</title>
   <link rel="stylesheet" href="../style.css" />
   <style>
-    .name{text-align:center;font-weight:800;margin-top:8px;color:#333;font-size:17px}
-    img.media{
-      width:450px;height:450px;
-      object-fit:cover;background:#eee;
-      border:2px solid #bbb;border-radius:0;
-      display:block;margin:0 auto;
-    }
-    .offset{
-      margin-top:8px;background:#fff;
-      border:1px solid #ccc;border-radius:8px;
-      padding:10px 12px;color:#222;line-height:1.45;
-      width:100%;max-width:450px;text-align:center;
-    }
-    .offset p{margin:4px 0}
-    .offset strong{font-weight:800}
-    .descbox{
-      width:100%;background:#fff;border:1px solid #ccc;border-radius:10px;
-      padding:14px 16px;color:#222;line-height:1.6;margin:12px 0 22px 0;
-    }
-    .descbox p{margin:8px 0}
-    .gallery{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:20px;align-items:start}
-    .item{display:flex;flex-direction:column;align-items:center}
-    @media(max-width:1200px){ .gallery{grid-template-columns:repeat(2, minmax(0, 1fr))} }
-    @media(max-width:760px){ .gallery{grid-template-columns:1fr} img.media{width:100%;height:auto;max-width:450px} .offset{max-width:100%} }
-  </style>
+  .name{text-align:center;font-weight:800;margin-top:8px;color:#333;font-size:17px}
+
+  img.media{
+    width:100%;
+    height:auto;          /* no fixed height -> no slicing */
+    max-width:450px;      /* consistent max size */
+    background:#eee;
+    border:2px solid #bbb;
+    border-radius:0;
+    display:block;
+    margin:0 auto;
+  }
+
+  .offset{
+    margin-top:8px;background:#fff;
+    border:1px solid #ccc;border-radius:8px;
+    padding:10px 12px;color:#222;line-height:1.45;
+    width:100%;max-width:450px;text-align:center;
+  }
+  .offset p{margin:4px 0}
+  .offset strong{font-weight:800}
+
+  .descbox{
+    width:100%;background:#fff;border:1px solid #ccc;border-radius:10px;
+    padding:14px 16px;color:#222;line-height:1.6;margin:12px 0 22px 0;
+  }
+  .descbox p{margin:8px 0}
+
+  .gallery{
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:32px;             /* padding between items */
+    align-items:start;
+    justify-items:center; /* keep items centered in their column */
+  }
+  .item{display:flex;flex-direction:column;align-items:center}
+
+  @media(max-width:1200px){
+    .gallery{grid-template-columns:repeat(2, minmax(0, 1fr))}
+  }
+  @media(max-width:760px){
+    .gallery{grid-template-columns:1fr}
+    img.media{max-width:100%}
+    .offset{max-width:100%}
+  }
+</style>
 </head>
 <body>
   <div class="wrapper">
@@ -46,7 +67,8 @@
       <p>
         After finding the most inward white point from each edge, I used those points as the reference for my cut. This process helped me remove the white edges entirely and left only the black borders. The illustration below shows why this is useful.
       </p>
-      <img class="media" src="./border_cutter.png" alt="border cropping illustration" style="width:100%;max-width:700px;height:auto" />
+      <img class="media" src="./border_cutter.png" alt="border cropping illustration"
+     style="width:100%;max-width:400px;height:auto" />
       <p>
         Because my white cropping is very accurate, the images after this preprocessing step are already quite close, and only small adjustments are necessary to finalize the alignment. After removing the white border, I split the resulting image three ways for each color channel and cropped off four percent of the image in terms of row length. For example, if my image is one hundred by thirty pixels, the row length is one hundred, so I crop four pixel columns from the left and right edges, and four pixel rows from the top and bottom.
       </p>
