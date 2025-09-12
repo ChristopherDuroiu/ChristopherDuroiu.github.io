@@ -6,52 +6,64 @@
   <title>CS180 Project 1</title>
   <link rel="stylesheet" href="../style.css" />
   <style>
-  .name{text-align:center;font-weight:800;margin-top:8px;color:#333;font-size:17px}
+    .name{ text-align:center; font-weight:800; margin-top:8px; color:#333; font-size:17px }
 
-  img.media{
-    width:100%;
-    height:auto;          /* no fixed height -> no slicing */
-    max-width:450px;      /* consistent max size */
-    background:#eee;
-    border:2px solid #bbb;
-    border-radius:0;
-    display:block;
-    margin:0 auto;
-  }
+    img.media{
+      width:100%;
+      height:auto;
+      max-width:675px;
+      background:#eee;
+      border:2px solid #bbb;
+      border-radius:0;
+      display:block;
+      margin:0 auto;
+    }
 
-  .offset{
-    margin-top:8px;background:#fff;
-    border:1px solid #ccc;border-radius:8px;
-    padding:10px 12px;color:#222;line-height:1.45;
-    width:100%;max-width:450px;text-align:center;
-  }
-  .offset p{margin:4px 0}
-  .offset strong{font-weight:800}
+    .offset{
+      margin-top:8px;
+      background:#fff;
+      border:1px solid #ccc;
+      border-radius:8px;
+      padding:10px 12px;
+      color:#222;
+      line-height:1.45;
+      width:100%;
+      max-width:675px;
+      text-align:center;
+    }
+    .offset p{ margin:4px 0 }
+    .offset strong{ font-weight:800 }
 
-  .descbox{
-    width:100%;background:#fff;border:1px solid #ccc;border-radius:10px;
-    padding:14px 16px;color:#222;line-height:1.6;margin:12px 0 22px 0;
-  }
-  .descbox p{margin:8px 0}
+    .descbox{
+      width:100%;
+      background:#fff;
+      border:1px solid #ccc;
+      border-radius:10px;
+      padding:14px 16px;
+      color:#222;
+      line-height:1.6;
+      margin:12px 0 22px 0;
+    }
+    .descbox p{ margin:8px 0 }
 
-  .gallery{
-    display:grid;
-    grid-template-columns:repeat(3, minmax(0, 1fr));
-    gap:32px;             /* padding between items */
-    align-items:start;
-    justify-items:center; /* keep items centered in their column */
-  }
-  .item{display:flex;flex-direction:column;align-items:center}
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:40px;
+      align-items:start;
+      justify-items:center;
+    }
+    .item{ display:flex; flex-direction:column; align-items:center }
 
-  @media(max-width:1200px){
-    .gallery{grid-template-columns:repeat(2, minmax(0, 1fr))}
-  }
-  @media(max-width:760px){
-    .gallery{grid-template-columns:1fr}
-    img.media{max-width:100%}
-    .offset{max-width:100%}
-  }
-</style>
+    @media(max-width:1400px){
+      .gallery{ grid-template-columns:repeat(2, minmax(0, 1fr)) }
+    }
+    @media(max-width:900px){
+      .gallery{ grid-template-columns:1fr }
+      img.media{ max-width:100% }
+      .offset{ max-width:100% }
+    }
+  </style>
 </head>
 <body>
   <div class="wrapper">
@@ -62,28 +74,28 @@
     <h2>Image Border Cropping</h2>
     <div class="descbox">
       <p>
-        My image cropping played a big role in the success of my image realignments. The first step in my cropping process was removing the white borders. I did this by looking around all four edges of the image independently. For each edge, I used a simple while loop to find the furthest white point moving inward toward the image on that edge. I only searched toward the middle part of the image edges to avoid certain edge cases with the four corners.
+        My image cropping played a big role in the success of my image realignments. The first step in my cropping process is removing the white borders. I did this by looking around all four edges of the image independently. For each edge, I use a simple while loop to find the furthest white point moving inward toward the image on that edge. I only search toward the middle part of the image edges to avoid certain edge cases with the four corners.
       </p>
       <p>
-        After finding the most inward white point from each edge, I used those points as the reference for my cut. This process helped me remove the white edges entirely and left only the black borders. The illustration below shows why this is useful.
+        After finding the most inward white point from each edge, I use those points as the reference for my cut. This process helped me remove the white edges entirely and be left with only the black borders. An illustration of this process is below, showing why this is useful.
       </p>
-      <img class="media" src="./border_cutter.png" alt="border cropping illustration"
-     style="width:100%;max-width:400px;height:auto" />
+      <img class="media" src="./border_cutter.png" alt="border cropping illustration" style="max-width:400px" />
       <p>
-        Because my white cropping is very accurate, the images after this preprocessing step are already quite close, and only small adjustments are necessary to finalize the alignment. After removing the white border, I split the resulting image three ways for each color channel and cropped off four percent of the image in terms of row length. For example, if my image is one hundred by thirty pixels, the row length is one hundred, so I crop four pixel columns from the left and right edges, and four pixel rows from the top and bottom.
+        Because my white cropping is very accurate, the images after this preprocessing step are already quite close, and only small adjustments are necessary to finalize the image. After removing the white border, I split the resulting image three ways for each color channel and crop off four percent of the image in terms of row length. For example, if my image is one hundred by thirty pixels, the row length is one hundred, so I crop four pixel columns from the left and right edges and four pixel rows from the top and bottom edges.
       </p>
     </div>
 
     <h2>Part 1 Single Scale Implementation</h2>
     <div class="descbox">
       <p>
-        For the single scale implementation, I realigned the red and green channels by searching all possibilities for the row and column offsets in a negative fifteen to fifteen pixel search space for each.
+        For the single scale implementation, I realign the red and green channels by searching all possibilities for the row offset and column offset in a negative fifteen to fifteen pixel search space for each.
       </p>
       <p>
-        My method for judging how good a particular row and column offset realignment of a color channel was to use the L2 norm or Euclidean distance <code>sqrt(sum(sum((image1 - image2).^2)))</code>. If this L2 norm is smaller, it means the matrices of the two color channels align more closely, suggesting a good alignment of the images.
+        My method for judging how good a particular row and column offset realignment of a color channel is uses the L2 norm or Euclidean distance
+        <code>sqrt(sum(sum((image1 - image2).^2)))</code>. A smaller L2 norm means the matrices of the two color channels align more closely, suggesting a good alignment of the images.
       </p>
       <p>
-        After finding the most optimal row and column offset realignment for both the green and red color channels while using the blue color channel as the fixed reference, I rolled both of these matrices by their respective realignments. Finally, I stacked these three channels together to create the full RGB image.
+        After finding the most optimal row and column offset realignment for both the green and red color channels while using the blue color channel as the fixed reference, I roll both of these matrices by their respective realignments. Finally, I stack these three channels together to create the full RGB image.
       </p>
     </div>
 
@@ -96,6 +108,7 @@
           <p><strong>red offset</strong> (12, 3)</p>
         </div>
       </div>
+
       <div class="item">
         <img class="media" src="./monastery.png" alt="monastery" />
         <div class="name">monastery.png</div>
@@ -104,6 +117,7 @@
           <p><strong>red offset</strong> (2, -2)</p>
         </div>
       </div>
+
       <div class="item">
         <img class="media" src="./tobolsk.png" alt="tobolsk" />
         <div class="name">tobolsk.png</div>
@@ -117,10 +131,28 @@
     <h2>Part 2 Multiscale Pyramid Implementation</h2>
     <div class="descbox">
       <p>
-        For Part 2, since the tif images are too computationally intensive to search in the same space as Part 1 with many more pixels and much larger matrices to compute, we needed a better approach. I used a pyramid implementation where each alignment call first scaled down the image, performed alignment on the smaller version, then doubled the offsets when returning to the higher resolution. I refined the offsets at each level by searching within a smaller space around the doubled values from the lower resolution. The base case was a scale factor of sixteen where I ran a direct alignment without further recursion.
+        For Part 2, since the tif images are too computationally intensive to look in the same search space as Part 1 with many more pixels and larger matrices to compute, we need a better approach to searching.
       </p>
       <p>
-        I initially tried pruning the Manhattan distance search but it was unreliable. A better speedup came from limiting the Manhattan distance search to zero to two at the finest levels where offsets were consistently small. This reduced the processing time from about one minute per image to around five seconds. As in Part 1, after computing the offsets, I rolled the green and red channels relative to the blue channel and stacked them to form the final RGB image.
+        I apply a pyramid implementation where at every function call to realign the images, I first scale down the image by some scale factor, which at the highest level in the call is just one, the original tif image. Then I make a recursive call to the same function except the scale factor is doubled, in order to find the optimal realignment for the image that is more granular with four times fewer pixels. After retrieving the optimal realignment found in the recursive call, I can apply the same realignment to the current images by doubling the realignment that the recursive call found to account for rows and columns doubling.
+      </p>
+      <p>
+        After applying the realignment to our color channel, I find the realignment between the reference image and the realigned color channel. This is useful because the search space of this current realignment is finer than the space of the recursive call. After finding the optimal row offset and column offset, I stack these offsets with the doubled offsets from our recursive call and return them.
+      </p>
+      <p>
+        At the highest level where our scale factor is one, I simply roll the image by the final row offset and column offset and return the realigned color channel. The base case of my function is at a scale factor of sixteen, where I do the normal realignment on the scaled images without making any recursive call and return these offsets.
+      </p>
+      <p>
+        In terms of the realignment computation done on each level, I realign the color channels by searching all possibilities for the row offset and column offset in order of increasing Manhattan distance from zero to fifteen. I then return the optimal row offset and column offset found within this search. I initially tried pruning the search for a better offset after two levels of the Manhattan distance search failed to produce better results. For example, if the search finds an initial L2 norm at a Manhattan distance of zero, finds a better one at one, better at two, but then worse at both three and four, I can prune the search from five to fifteen since we have likely already found the optimal offsets.
+      </p>
+      <p>
+        In practice, this pruning did not work well. It is possible for the search to find a steadily worse L2 norm from lengths zero to five at every step, but then increasingly better from five to ten, in which case we would have pruned and never returned the optimal solution.
+      </p>
+      <p>
+        My next approach to speeding up the code was changing my Manhattan distance search space to be from zero to two at the most fine levels of the pyramid with higher pixel counts, since these levels took the longest and I observed that the optimal offsets at these levels were consistently quite small and within this range. Therefore, the search from distances three to fifteen was wasted time. This took my processing time for each image from about one minute to about five seconds.
+      </p>
+      <p>
+        Just like in Part 1, after getting the rolled versions of both the green and red color channels, I stack them with the reference blue channel and output the result as my RGB image.
       </p>
     </div>
 
@@ -133,6 +165,7 @@
           <p><strong>red offset</strong> (28, 4)</p>
         </div>
       </div>
+
       <div class="item">
         <img class="media" src="./emir.png" alt="emir" />
         <div class="name">emir.png</div>
@@ -141,6 +174,7 @@
           <p><strong>red offset</strong> (21, -17)</p>
         </div>
       </div>
+
       <div class="item">
         <img class="media" src="./harvesters.png" alt="harvesters" />
         <div class="name">harvesters.png</div>
@@ -149,6 +183,7 @@
           <p><strong>red offset</strong> (4, -13)</p>
         </div>
       </div>
+
       <div class="item">
         <img class="media" src="./icon.png" alt="icon" />
         <div class="name">icon.png</div>
@@ -157,6 +192,7 @@
           <p><strong>red offset</strong> (14, -23)</p>
         </div>
       </div>
+
       <div class="item">
         <img class="media" src="./italil.png" alt="italil" />
         <div class="name">italil.png</div>
@@ -165,6 +201,7 @@
           <p><strong>red offset</strong> (257, -35)</p>
         </div>
       </div>
+
       <div class="item">
         <img class="media" src="./lastochikino.png" alt="lastochikino" />
         <div class="name">lastochikino.png</div>
@@ -173,6 +210,7 @@
           <p><strong>red offset</strong> (13, 9)</p>
         </div>
       </div>
+
       <div class="item">
         <img class="media" src="./lugano.png" alt="lugano" />
         <div class="name">lugano.png</div>
@@ -181,6 +219,7 @@
           <p><strong>red offset</strong> (27, 29)</p>
         </div>
       </div>
+
       <div class="item">
         <img class="media" src="./melons.png" alt="melons" />
         <div class="name">melons.png</div>
@@ -189,6 +228,7 @@
           <p><strong>red offset</strong> (3, -13)</p>
         </div>
       </div>
+
       <div class="item">
         <img class="media" src="./self_portrait.png" alt="self portrait" />
         <div class="name">self_portrait.png</div>
@@ -197,6 +237,7 @@
           <p><strong>red offset</strong> (16, -37)</p>
         </div>
       </div>
+
       <div class="item">
         <img class="media" src="./siren.png" alt="siren" />
         <div class="name">siren.png</div>
@@ -205,6 +246,7 @@
           <p><strong>red offset</strong> (54, 25)</p>
         </div>
       </div>
+
       <div class="item">
         <img class="media" src="./three_generations.png" alt="three generations" />
         <div class="name">three_generations.png</div>
