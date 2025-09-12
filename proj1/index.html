@@ -9,8 +9,18 @@
     .row{display:grid;grid-template-columns:340px 1fr;gap:16px;align-items:start;margin:22px 0}
     .box{display:flex;flex-direction:column;align-items:center}
     .square{width:300px;height:300px}
-    textarea{width:100%;min-height:140px;padding:10px;font-family:inherit;font-size:15px;border:1px solid #bbb;border-radius:8px;background:#fff;color:#222}
     .name{text-align:center;font-weight:800;margin-top:8px;color:#333;font-size:17px}
+    .descbox{
+      width:100%;
+      background:#ffffff;
+      border:1px solid #ccc;
+      border-radius:10px;
+      padding:14px 16px;
+      color:#222;
+      line-height:1.5;
+    }
+    .descbox p{margin:6px 0}
+    .descbox strong{font-weight:800}
     @media(max-width:840px){ .row{grid-template-columns:1fr} .square{margin:0 auto} }
   </style>
 </head>
@@ -27,8 +37,10 @@
         <img class="media square" src="./church.png" alt="church" style="width:300px;height:300px;object-fit:cover" />
         <div class="name">church.png</div>
       </div>
-      <textarea>green offset (18, -4)
-red offset (28, 4)</textarea>
+      <div class="descbox">
+        <p><strong>green offset</strong> (18, -4)</p>
+        <p><strong>red offset</strong> (28, 4)</p>
+      </div>
     </div>
 
     <div class="row">
@@ -36,8 +48,10 @@ red offset (28, 4)</textarea>
         <img class="media square" src="./emir.png" alt="emir" style="width:300px;height:300px;object-fit:cover" />
         <div class="name">emir.png</div>
       </div>
-      <textarea>blue offset (-29, 24)
-red offset (21, -17)</textarea>
+      <div class="descbox">
+        <p><strong>blue offset</strong> (-29, 24)</p>
+        <p><strong>red offset</strong> (21, -17)</p>
+      </div>
     </div>
 
     <div class="row">
@@ -45,8 +59,10 @@ red offset (21, -17)</textarea>
         <img class="media square" src="./harvesters.png" alt="harvesters" style="width:300px;height:300px;object-fit:cover" />
         <div class="name">harvesters.png</div>
       </div>
-      <textarea>green offset (5, -16)
-red offset (4, -13)</textarea>
+      <div class="descbox">
+        <p><strong>green offset</strong> (5, -16)</p>
+        <p><strong>red offset</strong> (4, -13)</p>
+      </div>
     </div>
 
     <div class="row">
@@ -54,17 +70,21 @@ red offset (4, -13)</textarea>
         <img class="media square" src="./icon.png" alt="icon" style="width:300px;height:300px;object-fit:cover" />
         <div class="name">icon.png</div>
       </div>
-      <textarea>green offset (11, -17)
-red offset (14, -23)</textarea>
+      <div class="descbox">
+        <p><strong>green offset</strong> (11, -17)</p>
+        <p><strong>red offset</strong> (14, -23)</p>
+      </div>
     </div>
 
     <div class="row">
       <div class="box">
         <img class="media square" src="./italil.png" alt="italil" style="width:300px;height:300px;object-fit:cover" />
-        <div class="name">itail.png</div>
+        <div class="name">italil.png</div>
       </div>
-      <textarea>green offset (129, -21)
-red offset (257, -35)</textarea>
+      <div class="descbox">
+        <p><strong>green offset</strong> (129, -21)</p>
+        <p><strong>red offset</strong> (257, -35)</p>
+      </div>
     </div>
 
     <div class="row">
@@ -72,8 +92,10 @@ red offset (257, -35)</textarea>
         <img class="media square" src="./lastochikino.png" alt="lastochikino" style="width:300px;height:300px;object-fit:cover" />
         <div class="name">lastochikino.png</div>
       </div>
-      <textarea>green offset (47, 2)
-red offset (13, 9)</textarea>
+      <div class="descbox">
+        <p><strong>green offset</strong> (47, 2)</p>
+        <p><strong>red offset</strong> (13, 9)</p>
+      </div>
     </div>
 
     <div class="row">
@@ -81,8 +103,10 @@ red offset (13, 9)</textarea>
         <img class="media square" src="./lugano.png" alt="lugano" style="width:300px;height:300px;object-fit:cover" />
         <div class="name">lugano.png</div>
       </div>
-      <textarea>green offset (19, 16)
-red offset (27, 29)</textarea>
+      <div class="descbox">
+        <p><strong>green offset</strong> (19, 16)</p>
+        <p><strong>red offset</strong> (27, 29)</p>
+      </div>
     </div>
 
     <div class="row">
@@ -90,8 +114,10 @@ red offset (27, 29)</textarea>
         <img class="media square" src="./melons.png" alt="melons" style="width:300px;height:300px;object-fit:cover" />
         <div class="name">melons.png</div>
       </div>
-      <textarea>green offset (9, -10)
-red offset (3, -13)</textarea>
+      <div class="descbox">
+        <p><strong>green offset</strong> (9, -10)</p>
+        <p><strong>red offset</strong> (3, -13)</p>
+      </div>
     </div>
 
     <div class="row">
@@ -99,8 +125,10 @@ red offset (3, -13)</textarea>
         <img class="media square" src="./self_portrait.png" alt="self portrait" style="width:300px;height:300px;object-fit:cover" />
         <div class="name">self_portrait.png</div>
       </div>
-      <textarea>green offset (17, -29)
-red offset (16, -37)</textarea>
+      <div class="descbox">
+        <p><strong>green offset</strong> (17, -29)</p>
+        <p><strong>red offset</strong> (16, -37)</p>
+      </div>
     </div>
 
     <div class="row">
@@ -108,8 +136,10 @@ red offset (16, -37)</textarea>
         <img class="media square" src="./siren.png" alt="siren" style="width:300px;height:300px;object-fit:cover" />
         <div class="name">siren.png</div>
       </div>
-      <textarea>green offset (25, 6)
-red offset (54, 25)</textarea>
+      <div class="descbox">
+        <p><strong>green offset</strong> (25, 6)</p>
+        <p><strong>red offset</strong> (54, 25)</p>
+      </div>
     </div>
 
     <div class="row">
@@ -117,8 +147,10 @@ red offset (54, 25)</textarea>
         <img class="media square" src="./three_generations.png" alt="three generations" style="width:300px;height:300px;object-fit:cover" />
         <div class="name">three_generations.png</div>
       </div>
-      <textarea>green offset (21, -14)
-red offset (36, -11)</textarea>
+      <div class="descbox">
+        <p><strong>green offset</strong> (21, -14)</p>
+        <p><strong>red offset</strong> (36, -11)</p>
+      </div>
     </div>
 
   </div>
