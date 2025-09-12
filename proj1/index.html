@@ -5,24 +5,30 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>CS180 Project 1</title>
   <link rel="stylesheet" href="../style.css" />
-  <style>
-    .row{display:grid;grid-template-columns:340px 1fr;gap:16px;align-items:start;margin:22px 0}
-    .box{display:flex;flex-direction:column;align-items:center}
-    .square{width:300px;height:300px}
-    .name{text-align:center;font-weight:800;margin-top:8px;color:#333;font-size:17px}
-    .descbox{
-      width:100%;
-      background:#ffffff;
-      border:1px solid #ccc;
-      border-radius:10px;
-      padding:14px 16px;
-      color:#222;
-      line-height:1.5;
-    }
-    .descbox p{margin:6px 0}
-    .descbox strong{font-weight:800}
-    @media(max-width:840px){ .row{grid-template-columns:1fr} .square{margin:0 auto} }
-  </style>
+<style>
+  .row{display:grid;grid-template-columns:480px 1fr;gap:16px;align-items:start;margin:22px 0}
+  .box{display:flex;flex-direction:column;align-items:center}
+  .square{width:450px;height:450px} /* increased by 50 percent */
+  .name{text-align:center;font-weight:800;margin-top:8px;color:#333;font-size:17px}
+  .descbox{
+    width:100%;
+    background:#ffffff;
+    border:1px solid #ccc;
+    border-radius:10px;
+    padding:14px 16px;
+    color:#222;
+    line-height:1.5;
+  }
+  .descbox p{margin:6px 0}
+  .descbox strong{font-weight:800}
+  img.media{
+    border-radius:0; /* remove rounding */
+    border:2px solid #bbb;
+    object-fit:cover;
+  }
+  @media(max-width:840px){ .row{grid-template-columns:1fr} .square{margin:0 auto} }
+</style>
+
 </head>
 <body>
   <div class="wrapper">
