@@ -5,30 +5,37 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>CS180 Project 1</title>
   <link rel="stylesheet" href="../style.css" />
-<style>
-  .row{display:grid;grid-template-columns:480px 1fr;gap:16px;align-items:start;margin:22px 0}
-  .box{display:flex;flex-direction:column;align-items:center}
-  .square{width:450px;height:450px} /* increased by 50 percent */
-  .name{text-align:center;font-weight:800;margin-top:8px;color:#333;font-size:17px}
-  .descbox{
-    width:100%;
-    background:#ffffff;
-    border:1px solid #ccc;
-    border-radius:10px;
-    padding:14px 16px;
-    color:#222;
-    line-height:1.5;
-  }
-  .descbox p{margin:6px 0}
-  .descbox strong{font-weight:800}
-  img.media{
-    border-radius:0; /* remove rounding */
-    border:2px solid #bbb;
-    object-fit:cover;
-  }
-  @media(max-width:840px){ .row{grid-template-columns:1fr} .square{margin:0 auto} }
-</style>
-
+  <style>
+    .row{display:grid;grid-template-columns:480px 1fr;gap:16px;align-items:start;margin:22px 0}
+    .box{display:flex;flex-direction:column;align-items:center}
+    .square{width:450px;height:450px}
+    .name{text-align:center;font-weight:800;margin-top:8px;color:#333;font-size:17px}
+    .descbox{
+      width:100%;
+      background:#ffffff;
+      border:1px solid #ccc;
+      border-radius:10px;
+      padding:14px 16px;
+      color:#222;
+      line-height:1.5;
+      margin-top:12px;
+      margin-bottom:22px;
+    }
+    .descbox p{margin:6px 0}
+    .descbox strong{font-weight:800}
+    img.media{
+      border-radius:0;
+      border:2px solid #bbb;
+      object-fit:cover;
+    }
+    .illustration{
+      display:block;
+      margin:16px auto;
+      max-width:600px;
+      border:2px solid #bbb;
+    }
+    @media(max-width:840px){ .row{grid-template-columns:1fr} .square{margin:0 auto} }
+  </style>
 </head>
 <body>
   <div class="wrapper">
@@ -36,11 +43,36 @@
       <h1>Project 1 Images of the Russian Empire</h1>
     </header>
 
+    <h2>Image Border-Cropping</h2>
+    <div class="descbox">
+      <p>
+        My image cropping played a big role in the success of my image realignments. The first step in my cropping process was removing the white borders. I did this by looking around all four edges of the image independently. For each edge, I used a simple while loop to find the furthest white point moving inward toward the image on that edge. I only searched toward the middle part of the image edges to avoid certain edge cases with the four corners.
+      </p>
+      <p>
+        After finding the most inward white point from each edge, I used those points as the reference for my cut. This process helped me remove the white edges entirely and left only the black borders. An illustration of this process is shown below, demonstrating why this is useful.
+      </p>
+      <img class="illustration" src="./border_cutter.png" alt="border cropping illustration" />
+      <p>
+        Because my white cropping is very accurate, the images after this preprocessing step are already quite close, and only small adjustments are necessary to finalize the alignment. After removing the white border, I split the resulting image three ways for each color channel and cropped off 4% of the image in terms of row length. For example, if my image is 100 × 30 pixels, the row length is 100, so I crop 4 pixel columns from the left and right edges, and 4 pixel rows from the top and bottom.
+      </p>
+    </div>
+
     <h2>Part 1 Single Scale Implementation</h2>
+    <div class="descbox">
+      <p>
+        For the single scale implementation, I realigned the red and green channels by searching all possibilities for the row and column offsets in a (-15, 15) pixel search space for each.
+      </p>
+      <p>
+        My method for judging how good a particular (row offset, column offset) realignment of a color channel was to use the L2 norm or Euclidean distance: <code>sqrt(sum(sum((image1 - image2).^2)))</code>. If this L2 norm is smaller, it means the matrices of the two color channels align more closely, suggesting a good alignment of the images.
+      </p>
+      <p>
+        After finding the most optimal (row offset, column offset) realignment for both the green and red color channels while using the blue color channel as the fixed reference, I rolled both of these matrices by their respective realignments. Finally, I stacked these three channels together to create the full RGB image.
+      </p>
+    </div>
 
     <div class="row">
       <div class="box">
-        <img class="media square" src="./cathedral.png" alt="cathedral" style="width:300px;height:300px;object-fit:cover" />
+        <img class="media square" src="./cathedral.png" alt="cathedral" />
         <div class="name">cathedral.png</div>
       </div>
       <div class="descbox">
@@ -51,7 +83,7 @@
 
     <div class="row">
       <div class="box">
-        <img class="media square" src="./monastery.png" alt="monastery" style="width:300px;height:300px;object-fit:cover" />
+        <img class="media square" src="./monastery.png" alt="monastery" />
         <div class="name">monastery.png</div>
       </div>
       <div class="descbox">
@@ -62,7 +94,7 @@
 
     <div class="row">
       <div class="box">
-        <img class="media square" src="./tobolsk.png" alt="tobolsk" style="width:300px;height:300px;object-fit:cover" />
+        <img class="media square" src="./tobolsk.png" alt="tobolsk" />
         <div class="name">tobolsk.png</div>
       </div>
       <div class="descbox">
@@ -72,10 +104,34 @@
     </div>
 
     <h2>Part 2 Multiscale Pyramid Implementation</h2>
+    <div class="descbox">
+      <p>
+        For Part 2, since the .tif images are too computationally intensive to search in the same space as Part 1 (many more pixels and much larger matrices to compute), we needed a better approach.
+      </p>
+      <p>
+        I applied the pyramid implementation where at every function call to realign the images, I first scaled down the image by some factor. At the highest level in the call, this factor was one (the original .tif image). Then I made a recursive call to the same function except the scale factor was doubled, in order to find the optimal realignment for a smaller image (with 4x fewer pixels). After retrieving the optimal realignment found in the recursive call, I could apply the same realignment to the current images by doubling the offsets from the recursive call (to account for scaling).
+      </p>
+      <p>
+        After applying this realignment to the color channel, I refined the alignment between the reference image and the realigned channel. This is useful because the search space at the current level is finer than the space of the recursive call. After finding the optimal row and column offsets, I stacked them with the doubled offsets from the recursive call and returned the result.
+      </p>
+      <p>
+        At the highest level, where the scale factor was one, I rolled the image by the final row and column offsets and returned the realigned color channel. The base case of my function was at a scale factor of 16, where I did the normal realignment on the scaled images without making a recursive call, and returned these offsets.
+      </p>
+      <p>
+        In terms of the realignment computation done at each level, I searched all possibilities for the row and column offsets in order of increasing Manhattan distance, from 0 to 15. I then returned the best offsets found within this search. I initially tried pruning the search if two successive Manhattan distances failed to improve the result. However, this was not reliable, since optimal offsets sometimes appeared later.
+      </p>
+      <p>
+        My next approach to speeding up the code was to limit the Manhattan distance search to 0-2 at the finest levels of the pyramid (where pixel counts are highest). These levels took the longest, but I observed that the optimal offsets at these levels were consistently quite small. Limiting the search in this way reduced wasted time and took my processing time for each image from about one minute to around five seconds.
+      </p>
+      <p>
+        Just like in Part 1, after computing the rolled versions of both the green and red channels, I stacked them with the reference blue channel and output the result as the RGB image.
+      </p>
+    </div>
 
+    <!-- Part 2 images with offsets -->
     <div class="row">
       <div class="box">
-        <img class="media square" src="./church.png" alt="church" style="width:300px;height:300px;object-fit:cover" />
+        <img class="media square" src="./church.png" alt="church" />
         <div class="name">church.png</div>
       </div>
       <div class="descbox">
@@ -86,7 +142,7 @@
 
     <div class="row">
       <div class="box">
-        <img class="media square" src="./emir.png" alt="emir" style="width:300px;height:300px;object-fit:cover" />
+        <img class="media square" src="./emir.png" alt="emir" />
         <div class="name">emir.png</div>
       </div>
       <div class="descbox">
@@ -97,7 +153,7 @@
 
     <div class="row">
       <div class="box">
-        <img class="media square" src="./harvesters.png" alt="harvesters" style="width:300px;height:300px;object-fit:cover" />
+        <img class="media square" src="./harvesters.png" alt="harvesters" />
         <div class="name">harvesters.png</div>
       </div>
       <div class="descbox">
@@ -108,7 +164,7 @@
 
     <div class="row">
       <div class="box">
-        <img class="media square" src="./icon.png" alt="icon" style="width:300px;height:300px;object-fit:cover" />
+        <img class="media square" src="./icon.png" alt="icon" />
         <div class="name">icon.png</div>
       </div>
       <div class="descbox">
@@ -119,7 +175,7 @@
 
     <div class="row">
       <div class="box">
-        <img class="media square" src="./italil.png" alt="italil" style="width:300px;height:300px;object-fit:cover" />
+        <img class="media square" src="./italil.png" alt="italil" />
         <div class="name">italil.png</div>
       </div>
       <div class="descbox">
@@ -130,7 +186,7 @@
 
     <div class="row">
       <div class="box">
-        <img class="media square" src="./lastochikino.png" alt="lastochikino" style="width:300px;height:300px;object-fit:cover" />
+        <img class="media square" src="./lastochikino.png" alt="lastochikino" />
         <div class="name">lastochikino.png</div>
       </div>
       <div class="descbox">
@@ -141,7 +197,7 @@
 
     <div class="row">
       <div class="box">
-        <img class="media square" src="./lugano.png" alt="lugano" style="width:300px;height:300px;object-fit:cover" />
+        <img class="media square" src="./lugano.png" alt="lugano" />
         <div class="name">lugano.png</div>
       </div>
       <div class="descbox">
@@ -152,7 +208,7 @@
 
     <div class="row">
       <div class="box">
-        <img class="media square" src="./melons.png" alt="melons" style="width:300px;height:300px;object-fit:cover" />
+        <img class="media square" src="./melons.png" alt="melons" />
         <div class="name">melons.png</div>
       </div>
       <div class="descbox">
@@ -163,7 +219,7 @@
 
     <div class="row">
       <div class="box">
-        <img class="media square" src="./self_portrait.png" alt="self portrait" style="width:300px;height:300px;object-fit:cover" />
+        <img class="media square" src="./self_portrait.png" alt="self portrait" />
         <div class="name">self_portrait.png</div>
       </div>
       <div class="descbox">
@@ -174,7 +230,7 @@
 
     <div class="row">
       <div class="box">
-        <img class="media square" src="./siren.png" alt="siren" style="width:300px;height:300px;object-fit:cover" />
+        <img class="media square" src="./siren.png" alt="siren" />
         <div class="name">siren.png</div>
       </div>
       <div class="descbox">
@@ -185,7 +241,7 @@
 
     <div class="row">
       <div class="box">
-        <img class="media square" src="./three_generations.png" alt="three generations" style="width:300px;height:300px;object-fit:cover" />
+        <img class="media square" src="./three_generations.png" alt="three generations" />
         <div class="name">three_generations.png</div>
       </div>
       <div class="descbox">
