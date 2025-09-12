@@ -88,11 +88,11 @@
     <h2>Part 1 Single Scale Implementation</h2>
     <div class="descbox">
       <p>
-        For the single scale implementation, I realign the red and green channels by searching all possibilities for the row offset and column offset in a negative fifteen to fifteen pixel search space for each.
+        For the single scale implementation, I realign the red and green channels by searching all possibilities for the row offset and column offset in a -15 to +15 search space for each.
       </p>
       <p>
         My method for judging how good a particular row and column offset realignment of a color channel is uses the L2 norm or Euclidean distance
-        <code>sqrt(sum(sum((image1 - image2).^2)))</code>. A smaller L2 norm means the matrices of the two color channels align more closely, suggesting a good alignment of the images.
+        <code>sqrt(sum(sum((image1 - image2).^2)))</code>. A larger L2 norm means the matrices of the two color channels align more closely, suggesting a good alignment of the images.
       </p>
       <p>
         After finding the most optimal row and column offset realignment for both the green and red color channels while using the blue color channel as the fixed reference, I roll both of these matrices by their respective realignments. Finally, I stack these three channels together to create the full RGB image.
@@ -141,7 +141,7 @@
         After applying the realignment to our color channel, I find the realignment between the reference image and the realigned color channel. This is useful because the search space of this current realignment is more fine than the space of our recursive call. After finding the optimal row_offset and col_offset, I stack these offsets with the doubled offsets from our recursive call, and return them.
     </p>
     <p>
-        At the highest level where our scale factor is one, we simply roll the image by our final row_offset and col_offset and return the realigned color channel.
+        At the highest level where our scale factor is one, I simply roll the image by our final row_offset and col_offset and return the realigned color channel.
     </p>
     <p>
         The base case of my function is at a scale factor of 16, where I do the normal realignment on the scaled images without making any recursive call, and return these offsets.
