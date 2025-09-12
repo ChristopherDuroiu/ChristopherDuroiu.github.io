@@ -130,30 +130,36 @@
 
     <h2>Part 2 Multiscale Pyramid Implementation</h2>
     <div class="descbox">
-      <p>
-        For Part 2, since the tif images are too computationally intensive to look in the same search space as Part 1 with many more pixels and larger matrices to compute, we need a better approach to searching.
-      </p>
-      <p>
-        I apply a pyramid implementation where at every function call to realign the images, I first scale down the image by some scale factor, which at the highest level in the call is just one, the original tif image. Then I make a recursive call to the same function except the scale factor is doubled, in order to find the optimal realignment for the image that is more granular with four times fewer pixels. After retrieving the optimal realignment found in the recursive call, I can apply the same realignment to the current images by doubling the realignment that the recursive call found to account for rows and columns doubling.
-      </p>
-      <p>
-        After applying the realignment to our color channel, I find the realignment between the reference image and the realigned color channel. This is useful because the search space of this current realignment is finer than the space of the recursive call. After finding the optimal row offset and column offset, I stack these offsets with the doubled offsets from our recursive call and return them.
-      </p>
-      <p>
-        At the highest level where our scale factor is one, I simply roll the image by the final row offset and column offset and return the realigned color channel. The base case of my function is at a scale factor of sixteen, where I do the normal realignment on the scaled images without making any recursive call and return these offsets.
-      </p>
-      <p>
-        In terms of the realignment computation done on each level, I realign the color channels by searching all possibilities for the row offset and column offset in order of increasing Manhattan distance from zero to fifteen. I then return the optimal row offset and column offset found within this search. I initially tried pruning the search for a better offset after two levels of the Manhattan distance search failed to produce better results. For example, if the search finds an initial L2 norm at a Manhattan distance of zero, finds a better one at one, better at two, but then worse at both three and four, I can prune the search from five to fifteen since we have likely already found the optimal offsets.
-      </p>
-      <p>
-        In practice, this pruning did not work well. It is possible for the search to find a steadily worse L2 norm from lengths zero to five at every step, but then increasingly better from five to ten, in which case we would have pruned and never returned the optimal solution.
-      </p>
-      <p>
-        My next approach to speeding up the code was changing my Manhattan distance search space to be from zero to two at the most fine levels of the pyramid with higher pixel counts, since these levels took the longest and I observed that the optimal offsets at these levels were consistently quite small and within this range. Therefore, the search from distances three to fifteen was wasted time. This took my processing time for each image from about one minute to about five seconds.
-      </p>
-      <p>
-        Just like in Part 1, after getting the rolled versions of both the green and red color channels, I stack them with the reference blue channel and output the result as my RGB image.
-      </p>
+    <h3>Pyramid Algorithm</h3>
+    <p>
+        For part 2, since the .tif images are too computationally intensive to look in the same search space as part1 (way more pixels and larger matrices to compute), we need to find a better approach to searching.
+    </p>
+    <p>
+        I applied the pyramid implementation where at every single function call to realign the images, I first scale down the image by some scale factor, which at the highest level in the call is just one (the original .tif image). Then I make a recursive call to the same function except the scale factor is doubled, in order to find the optimal realignment for the image that is more granular (4x less pixels). After retrieving the optimal realignment found in the recursive call, I know that I can apply the same realignment to the current function images by doubling the realignment that the recursive call found (to account for rows/cols doubling).
+    </p>
+    <p>
+        After applying the realignment to our color channel, I find the realignment between the reference image and the realigned color channel. This is useful because the search space of this current realignment is more fine than the space of our recursive call. After finding the optimal row_offset and col_offset, I stack these offsets with the doubled offsets from our recursive call, and return them.
+    </p>
+    <p>
+        At the highest level where our scale factor is one, we simply roll the image by our final row_offset and col_offset and return the realigned color channel.
+    </p>
+    <p>
+        The base case of my function is at a scale factor of 16, where I do the normal realignment on the scaled images without making any recursive call, and return these offsets.
+    </p>
+
+    <h3>Search Space + Attempted Optimizations</h3>
+    <p>
+        In terms of the realignment computation done on each level, I realign the color channels by searching all possibilities for the row_offset and col_offset in order of increasing Manhattan distance, from 0 to 15. I then return the optimal row_offset and col_offset found within this search. I initially tried out this Manhattan distance idea because I wanted my .tif files to be processed faster than a minute. My initial idea was to prune off the search for a better offset after two levels of the Manhattan distance search failed to produce better results. For example if the search finds an initial L2 norm at a Manhattan distance of 0, finds a better one at 1, better at 2, but then a worse at both 3 and 4, I can prune the search from 5->15 since we have likely already found the optimal offsets.
+    </p>
+    <p>
+        In practice this pruning did not work out well. This is because it is possible for the search to find a steadily worse L2 norm from length 0 to 5 at every step, but then increasingly better from 5 to 10, in which case we would have pruned and never returned the optimal solution.
+    </p>
+    <p>
+        My next approach to speeding up the code was changing my manhattan distance search space to be from 0 -> 2 at the most “fine” levels of the pyramid (higher pixel count) since these levels took the longest since they have the largest matrices, and I observed that the optimal offsets at these levels were consistently quite small and within this range. Therefore the search from distance 3 -> 15 was wasted time. This took my processing time for each image from ~1 minute to ~5 seconds.
+    </p>
+    <p>
+        Just like in part one, after getting the rolled versions of both the green and red color channels, I stack them with the reference blue channel and output the result as my rgb image.
+    </p>
     </div>
 
     <div class="gallery">
